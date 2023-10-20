@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
-    $senha = password_hash($_POST["senha"], PASSWORD_BCRYPT);
-    $email = $_POST["email"];
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST['usuario'];
+    $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
+    $email = $_POST['email'];
+    
     try {
-        $pdo = new PDO("mysqp:host=localhost;dbname=autenticacao" , "
-        root", "") ;
+        $pdo = new PDO("mysql:host=localhost;dbname=autenticacao" , "root", "") ;
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         die("Erro na conexão com o banco de dados: " . $e->getMessage());
@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
     // Insira os dados na tabela 'users'
     $stmt = $pdo->prepare("INSERT INTO usuarios (usuario, senha, email) VALUES (?, ?, ?)");
+    $stmt->execute([$usuario, $senha, $email]);
 
     $_SESSION["usuario"] = $usuario;
     header("Location: dashboard.php");
