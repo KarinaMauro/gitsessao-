@@ -6,6 +6,6 @@
     <title>Dashboard</title>
 </head>
 <body>
-    
+    <a href="logout.php">Sair</a>
 </body>
 </html>
